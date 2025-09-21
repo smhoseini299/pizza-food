@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پیتزاتو بساز - پیتزا هات</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="build-pizza.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="build-pizza-page">
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <div class="logo-circle">
+                    <span class="logo-text">پیتزا هات</span>
+                </div>
+            </div>
+            <nav class="nav">
+                <a href="index.html" class="nav-link">خانه</a>
+                <a href="#" class="nav-link">منو</a>
+                <a href="#" class="nav-link">سفارش</a>
+                <a href="#" class="nav-link">آنلاین</a>
+            </nav>
+            <div class="cart-icon">
+                <span class="cart-count">0</span>
+                🛒
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Build Interface -->
+    <main class="build-main">
+        <div class="container">
+            <!-- Progress Steps -->
+            <div class="progress-steps">
+                <div class="step active" data-step="1">
+                    <div class="step-icon">📏</div>
+                    <div class="step-info">
+                        <div class="step-title">سایز</div>
+                        <div class="step-desc">انتخاب اندازه</div>
+                    </div>
+                </div>
+                <div class="step" data-step="2">
+                    <div class="step-icon">🥖</div>
+                    <div class="step-info">
+                        <div class="step-title">خمیر</div>
+                        <div class="step-desc">نوع خمیر</div>
+                    </div>
+                </div>
+                <div class="step" data-step="3">
+                    <div class="step-icon">🍅</div>
+                    <div class="step-info">
+                        <div class="step-title">سس</div>
+                        <div class="step-desc">انتخاب سس</div>
+                    </div>
+                </div>
+                <div class="step" data-step="4">
+                    <div class="step-icon">🧀</div>
+                    <div class="step-info">
+                        <div class="step-title">پنیر</div>
+                        <div class="step-desc">نوع پنیر</div>
+                    </div>
+                </div>
+                <div class="step" data-step="5">
+                    <div class="step-icon">🍄</div>
+                    <div class="step-info">
+                        <div class="step-title">تاپینگ</div>
+                        <div class="step-desc">مواد اضافی</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content Area -->
+            <div class="build-content">
+                <!-- Pizza Canvas -->
+                <div class="pizza-canvas">
+                    <div class="pizza-preview" id="pizzaPreview">
+                        <div class="pizza-base" id="pizzaBase"></div>
+                        <div class="pizza-sauce" id="pizzaSauce"></div>
+                        <div class="pizza-cheese" id="pizzaCheese"></div>
+                        <div class="pizza-toppings" id="pizzaToppings"></div>
+                        <div class="pizza-shadow"></div>
+                    </div>
+                    
+                    <!-- Price Display -->
+                    <div class="price-display">
+                        <div class="price-label">قیمت کل:</div>
+                        <div class="price-value" id="totalPrice">۰ تومان</div>
+                    </div>
+                </div>
+
+                <!-- Options Panel -->
+                <div class="options-panel">
+                    <div class="panel-header">
+                        <h2 id="stepTitle">انتخاب سایز پیتزا</h2>
+                        <p id="stepDescription">سایز مورد نظر خود را انتخاب کنید</p>
+                    </div>
+
+                    <div class="options-grid" id="optionsGrid">
+                        <!-- Options will be populated by JavaScript -->
+                    </div>
+
+                    <!-- Navigation Buttons -->
+                    <div class="step-navigation">
+                        <button class="btn-nav btn-back" id="backBtn" disabled>
+                            ← مرحله قبل
+                        </button>
+                        <button class="btn-nav btn-next" id="nextBtn">
+                            مرحله بعد →
+                        </button>
+                        <button class="btn-nav btn-finish" id="finishBtn" style="display: none;">
+                            افزودن به سبد
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Toppings Drawer (for step 5) -->
+            <div class="toppings-drawer" id="toppingsDrawer" style="display: none;">
+                <div class="drawer-header">
+                    <h3>تاپینگ‌های موجود</h3>
+                    <p>تاپینگ‌ها را روی پیتزا بکشید یا کلیک کنید</p>
+                </div>
+                <div class="toppings-list" id="toppingsList">
+                    <!-- Toppings will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Order Summary Modal -->
+    <div class="modal-overlay" id="orderModal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>خلاصه سفارش</h3>
+                <button class="modal-close" id="closeModal">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="order-preview">
+                    <div class="order-pizza" id="orderPizzaPreview"></div>
+                    <div class="order-details">
+                        <div class="order-item">
+                            <span>سایز:</span>
+                            <span id="orderSize">-</span>
+                        </div>
+                        <div class="order-item">
+                            <span>خمیر:</span>
+                            <span id="orderDough">-</span>
+                        </div>
+                        <div class="order-item">
+                            <span>سس:</span>
+                            <span id="orderSauce">-</span>
+                        </div>
+                        <div class="order-item">
+                            <span>پنیر:</span>
+                            <span id="orderCheese">-</span>
+                        </div>
+                        <div class="order-item">
+                            <span>تاپینگ‌ها:</span>
+                            <span id="orderToppings">-</span>
+                        </div>
+                        <div class="order-total">
+                            <span>قیمت کل:</span>
+                            <span id="orderTotalPrice">۰ تومان</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="editOrder">ویرایش سفارش</button>
+                <button class="btn-primary" id="confirmOrder">
+                    <span class="btn-icon">🛒</span>
+                    تأیید و افزودن به سبد
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Toast -->
+    <div class="toast" id="successToast">
+        <div class="toast-icon">✅</div>
+        <div class="toast-message">پیتزا به سبد خرید اضافه شد!</div>
+    </div>
+
+    <script src="build-pizza.js"></script>
+</body>
+</html>
