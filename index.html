@@ -1,137 +1,15 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fa" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>پیتزا هات - امروز روز پیتزاست</title>
-    <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-</head>
-<body>
-    <!-- Header -->
-    <header class="header">
-        <div class="container">
-            <div class="logo">
-                <div class="logo-circle">
-                    <span class="logo-text">پیتزا هات</span>
-                </div>
-            </div>
-            <nav class="nav">
-                <a href="#" class="nav-link">منو</a>
-                <a href="#" class="nav-link">سفارش</a>
-                <a href="#" class="nav-link">آنلاین</a>
-                <a href="#" class="nav-link nav-link--signup">ثبت نام</a>
-            </nav>
-            <div class="mobile-menu-toggle">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </div>
-    </header>
-
-    <!-- Background Image Glass Effect -->
-    <div class="bg-image-glass">
-        <div class="glass-overlay-1"></div>
-        <div class="glass-overlay-2"></div>
-        <div class="glass-overlay-3"></div>
-    </div>
-
-    <!-- Background Glass Pizza -->
-    <div class="bg-pizza-glass">
-        <div class="glass-pizza glass-pizza-1">
-            <div class="glass-pizza-inner">
-                <div class="glass-pizza-base"></div>
-                <div class="glass-pizza-sauce"></div>
-                <div class="glass-pizza-cheese"></div>
-                <div class="glass-topping glass-topping-1"></div>
-                <div class="glass-topping glass-topping-2"></div>
-                <div class="glass-topping glass-topping-3"></div>
-                <div class="glass-topping glass-topping-4"></div>
-                <div class="glass-topping glass-topping-5"></div>
-            </div>
-        </div>
-        <div class="glass-pizza glass-pizza-2">
-            <div class="glass-pizza-inner">
-                <div class="glass-pizza-base"></div>
-                <div class="glass-pizza-sauce"></div>
-                <div class="glass-pizza-cheese"></div>
-                <div class="glass-topping glass-topping-6"></div>
-                <div class="glass-topping glass-topping-7"></div>
-                <div class="glass-topping glass-topping-8"></div>
-            </div>
-        </div>
-        <div class="glass-pizza glass-pizza-3">
-            <div class="glass-pizza-inner">
-                <div class="glass-pizza-base"></div>
-                <div class="glass-pizza-sauce"></div>
-                <div class="glass-pizza-cheese"></div>
-                <div class="glass-topping glass-topping-9"></div>
-                <div class="glass-topping glass-topping-10"></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Hero Section -->
-    <main class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <!-- Left Content -->
-                <div class="hero-text">
-                    <p class="">امروز روز پیتزاست 🍕</p>
-                    <h1 class="pizza-title" id="pizzaTitle">پیتزا اسپشیال</h1>
-                    <p class="pizza-description" id="pizzaDescription">
-                        پیتزای خوشمزه با مواد تازه و پنیر مرغوب، طعمی فراموش نشدنی برای شما.
-                    </p>
-                    <div class="hero-actions">
-                        <a href="build-pizza.html" class="btn-primary">
-                            <span class="btn-icon">🍕</span>
-                            پیتزاتو بساز
-                        </a>
-                        <button class="btn-secondary" onclick="document.querySelector('.bottom-carousel').scrollIntoView({behavior: 'smooth'})">
-                            مشاهده منو
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Main Pizza Display -->
-                <div class="pizza-display">
-                    <div class="pizza-container">
-                        <div class="pizza-background"></div>
-                        <img src="pizza1.png" 
-                             alt="پیتزا اسپشیال" 
-                             class="main-pizza" 
-                             id="mainPizza">
-                    </div>
-                    
-                    <!-- Floating Pizza Images -->
-                    <div class="floating-pizzas">
-                        <img src="pizza2.png" 
-                             alt="پیتزا شناور ۱" 
-                             class="floating-pizza floating-pizza-1">
-                        <img src="pizza3.png" 
-                             alt="پیتزا شناور ۲" 
-                             class="floating-pizza floating-pizza-2">
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Bottom Thumbnail Carousel -->
-            <div class="bottom-carousel">
-                <div class="carousel-header">
-                    <h3 class="carousel-title">پیتزای خود را انتخاب کنید</h3>
-                    <div class="carousel-indicators" id="carouselIndicators">
-                        <!-- Indicators will be populated by JavaScript -->
-                    </div>
-                </div>
-                <div class="thumbnail-container" id="thumbnailContainer">
-                    <!-- Thumbnails will be populated by JavaScript -->
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <script src="script.js"></script>
-</body>
+  </head>
+  <body class="font-vazir">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>
