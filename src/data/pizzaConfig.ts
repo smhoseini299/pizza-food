@@ -22,10 +22,10 @@ export const pizzaConfig: PizzaConfig = {
     { id: 'vegan', name: 'وگان', icon: '🌱', price: 12000, description: 'پنیر گیاهی' }
   ],
   toppings: [
-    { id: 'pepperoni', name: 'پپرونی', icon: '🔴', price: 15000, color: '#8B0000' },
+    { id: 'pepperoni', name: 'پپرونی', icon: '🥓', price: 15000, color: '#8B0000' },
     { id: 'mushroom', name: 'قارچ', icon: '🍄', price: 8000, color: '#8B7355' },
-    { id: 'pepper', name: 'فلفل', icon: '🌶️', price: 6000, color: '#228B22' },
-    { id: 'onion', name: 'پیاز', icon: '⚪', price: 4000, color: '#F5F5DC' },
+    { id: 'pepper', name: 'فلفل', icon: '🫑', price: 6000, color: '#228B22' },
+    { id: 'onion', name: 'پیاز', icon: '🧅', price: 4000, color: '#F5F5DC' },
     { id: 'olive', name: 'زیتون', icon: '🫒', price: 10000, color: '#2F4F2F' },
     { id: 'tomato', name: 'گوجه', icon: '🍅', price: 5000, color: '#FF6347' }
   ]

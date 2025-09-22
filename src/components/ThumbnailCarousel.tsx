@@ -44,7 +44,7 @@ const ThumbnailCarousel: React.FC<ThumbnailCarouselProps> = ({
       </div>
 
       {/* Thumbnail Container */}
-      <div className="flex gap-5 overflow-x-auto scrollbar-hide justify-center items-center px-6 py-3">
+      <div className="flex gap-5 overflow-x-auto scrollbar-hide justify-center items-center px-6 py-6">
         {pizzas.map((pizza, index) => (
           <div
             key={pizza.id}

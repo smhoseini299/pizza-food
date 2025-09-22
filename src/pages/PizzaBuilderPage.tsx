@@ -80,9 +80,19 @@ const PizzaBuilderPage: React.FC = () => {
   }
 
   const stepConfig = getStepConfig()
+  
+  if (!stepConfig) {
+    return <div>خطا در بارگذاری تنظیمات</div>
+  }
 
   // Handle drag and drop
   const handleToppingDrop = (e: React.DragEvent) => {
+    // Only allow topping drops in step 5
+    if (currentStep !== 5) {
+      showToastMessage('ابتدا مراحل قبلی را تکمیل کنید')
+      return
+    }
+    
     const toppingId = e.dataTransfer.getData('text/plain')
     const topping = pizzaConfig.toppings.find(t => t.id === toppingId)
     
@@ -131,7 +141,7 @@ const PizzaBuilderPage: React.FC = () => {
   const handleConfirmOrder = () => {
     setCartCount(prev => prev + 1)
     setShowOrderModal(false)
-    showToastMessage('پیتزا به سبد خرید اضافه شد!', 'success')
+    showToastMessage('پیتزا به سبد خرید اضافه شد!')
     
     // Reset after a delay
     setTimeout(() => {
@@ -144,7 +154,7 @@ const PizzaBuilderPage: React.FC = () => {
     }
   }
 
-  const showToastMessage = (message: string, type: 'info' | 'success' = 'info') => {
+  const showToastMessage = (message: string) => {
     setToastMessage(message)
     setShowToast(true)
     setTimeout(() => setShowToast(false), 3000)
@@ -201,17 +211,25 @@ const PizzaBuilderPage: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
             {/* Pizza Canvas */}
             <div className="sticky top-32 flex flex-col items-center gap-8">
-              <PizzaPreview
-                pizza={currentPizza}
-                onToppingRemove={(toppingId) => {
-                  const topping = pizzaConfig.toppings.find(t => t.id === toppingId)
-                  if (topping) {
-                    toggleTopping(topping)
-                    showToastMessage('تاپینگ حذف شد')
-                  }
-                }}
-                onDrop={handleToppingDrop}
-              />
+              <div className="relative">
+                <PizzaPreview
+                  pizza={currentPizza}
+                  showToppings={currentStep === 5}
+                  onToppingRemove={(toppingId) => {
+                    const topping = pizzaConfig.toppings.find(t => t.id === toppingId)
+                    if (topping) {
+                      toggleTopping(topping)
+                      showToastMessage('تاپینگ حذف شد')
+                    }
+                  }}
+                  onDrop={handleToppingDrop}
+                />
+                
+                {/* Step Indicator */}
+                <div className="absolute -top-4 -right-4 bg-primary text-white px-3 py-1 rounded-full text-sm font-semibold shadow-lg">
+                  مرحله {currentStep} از {totalSteps}
+                </div>
+              </div>
 
               {/* Price Display */}
               <div className="card-glass p-6 text-center">
@@ -249,8 +267,12 @@ const PizzaBuilderPage: React.FC = () => {
                   ))}
                 </div>
               ) : (
-                <div className="text-center text-text-muted mb-8 p-5">
-                  تاپینگ‌ها را از پایین انتخاب کنید
+                <div className="text-center text-text-muted mb-8 p-5 bg-white/50 rounded-2xl">
+                  <div className="text-lg font-semibold mb-2">🍕 مرحله تاپینگ</div>
+                  <p>تاپینگ‌های مورد نظر خود را از پایین انتخاب کنید</p>
+                  <div className="mt-4 text-sm text-text-secondary">
+                    تاپینگ‌های انتخاب شده: {currentPizza.toppings.length} مورد
+                  </div>
                 </div>
               )}
 
@@ -261,7 +283,7 @@ const PizzaBuilderPage: React.FC = () => {
                   disabled={currentStep === 1}
                   className="flex-1 px-6 py-4 bg-white/80 text-text-secondary border-2 border-black/10 rounded-2xl font-semibold transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-white hover:text-text-primary hover:-translate-y-0.5"
                 >
-                  ← مرحله قبل
+                  ← {currentStep === 5 ? 'بازگشت به پنیر' : 'مرحله قبل'}
                 </button>
 
                 {currentStep === totalSteps ? (
@@ -277,7 +299,7 @@ const PizzaBuilderPage: React.FC = () => {
                     onClick={handleNext}
                     className="flex-1 btn-primary"
                   >
-                    مرحله بعد →
+                    {currentStep === 4 ? 'شروع تاپینگ' : 'مرحله بعد'} →
                   </button>
                 )}
               </div>
@@ -286,7 +308,7 @@ const PizzaBuilderPage: React.FC = () => {
 
           {/* Toppings Drawer (for step 5) */}
           {currentStep === 5 && (
-            <div className="mt-8 card-glass p-6">
+            <div className="mt-8 card-glass p-6 animate-fade-in">
               <div className="text-center mb-6">
                 <h3 className="text-xl font-bold text-text-primary mb-2">
                   تاپینگ‌های موجود
@@ -340,7 +362,7 @@ const PizzaBuilderPage: React.FC = () => {
                 {/* Order Pizza Preview */}
                 <div className="flex justify-center">
                   <div className="w-40 h-40">
-                    <PizzaPreview pizza={currentPizza} />
+                    <PizzaPreview pizza={currentPizza} showToppings={true} />
                   </div>
                 </div>
 
@@ -406,7 +428,7 @@ const PizzaBuilderPage: React.FC = () => {
         </div>
       )}
 
-      <style jsx>{`
+      <style>{`
         @keyframes slideUp {
           from { 
             opacity: 0;

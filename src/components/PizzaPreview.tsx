@@ -5,9 +5,10 @@ interface PizzaPreviewProps {
   pizza: PizzaState
   onToppingRemove?: (toppingId: string) => void
   onDrop?: (e: React.DragEvent) => void
+  showToppings?: boolean
 }
 
-const PizzaPreview: React.FC<PizzaPreviewProps> = ({ pizza, onToppingRemove, onDrop }) => {
+const PizzaPreview: React.FC<PizzaPreviewProps> = ({ pizza, onToppingRemove, onDrop, showToppings = true }) => {
   const [isRotating, setIsRotating] = useState(false)
   const [isDragOver, setIsDragOver] = useState(false)
 
@@ -77,7 +78,8 @@ const PizzaPreview: React.FC<PizzaPreviewProps> = ({ pizza, onToppingRemove, onD
     return {
       background,
       opacity: 0.9,
-      transform: 'scale(1)'
+      transform: 'scale(1)',
+      transition: 'all 0.5s ease-in-out'
     }
   }
 
@@ -102,7 +104,8 @@ const PizzaPreview: React.FC<PizzaPreviewProps> = ({ pizza, onToppingRemove, onD
     return {
       background,
       opacity: 0.85,
-      transform: 'scale(1)'
+      transform: 'scale(1)',
+      transition: 'all 0.5s ease-in-out'
     }
   }
 
@@ -145,25 +148,36 @@ const PizzaPreview: React.FC<PizzaPreviewProps> = ({ pizza, onToppingRemove, onD
         />
 
         {/* Pizza Toppings */}
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-75 h-75 pointer-events-none">
-          {pizza.toppings.map((topping, index) => (
-            <div
-              key={`${topping.id}-${index}`}
-              className="absolute w-6 h-6 rounded-full transition-all duration-250 pointer-events-auto cursor-pointer hover:scale-120 hover:z-10"
-              style={{
-                left: `${topping.x}px`,
-                top: `${topping.y}px`,
-                background: `radial-gradient(circle, ${topping.color} 0%, ${adjustColor(topping.color || '#8B0000', -30)} 100%)`,
-                border: `2px solid ${adjustColor(topping.color || '#8B0000', -50)}`,
-                transform: `rotate(${Math.random() * 360}deg)`
-              }}
-              onClick={(e) => {
-                e.stopPropagation()
-                onToppingRemove?.(topping.id)
-              }}
-            />
-          ))}
-        </div>
+        {showToppings && (
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-75 h-75 pointer-events-none">
+            {pizza.toppings.map((topping, index) => (
+              <div
+                key={`${topping.id}-${index}`}
+                className="absolute w-8 h-8 transition-all duration-500 pointer-events-auto cursor-pointer hover:scale-125 hover:z-10 flex items-center justify-center animate-fade-in"
+                style={{
+                  left: `${topping.x}px`,
+                  top: `${topping.y}px`,
+                  transform: `rotate(${Math.random() * 360}deg)`,
+                  animationDelay: `${index * 100}ms`
+                }}
+                onClick={(e) => {
+                  e.stopPropagation()
+                  onToppingRemove?.(topping.id)
+                }}
+              >
+                {/* Topping Icon */}
+                <div 
+                  className="text-2xl filter drop-shadow-sm"
+                  style={{
+                    filter: 'drop-shadow(1px 1px 2px rgba(0,0,0,0.3))'
+                  }}
+                >
+                  {topping.icon}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
 
         {/* Pizza Shadow */}
         <div className="absolute -bottom-10 w-87.5 h-15 bg-radial-gradient from-black/30 to-transparent rounded-full filter blur-sm -z-10" />
@@ -176,7 +190,7 @@ const PizzaPreview: React.FC<PizzaPreviewProps> = ({ pizza, onToppingRemove, onD
         )}
       </div>
 
-      <style jsx>{`
+      <style>{`
         @keyframes pizzaRotate3D {
           0% { transform: rotateY(0deg) scale(1); }
           50% { transform: rotateY(180deg) scale(1.06); }

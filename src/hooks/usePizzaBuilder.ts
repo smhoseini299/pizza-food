@@ -81,11 +81,46 @@ export const usePizzaBuilder = () => {
         newToppings.splice(existingIndex, 1)
         return { ...prev, toppings: newToppings }
       } else {
-        // Add topping
+        // Add topping with better positioning
+        let newX = x
+        let newY = y
+        
+        if (!newX || !newY) {
+          // Generate positions that don't overlap
+          const pizzaRadius = 150 // Pizza radius
+          const toppingRadius = 20 // Topping radius
+          let attempts = 0
+          let validPosition = false
+          
+          while (!validPosition && attempts < 50) {
+            // Generate random position within pizza circle
+            const angle = Math.random() * 2 * Math.PI
+            const distance = Math.random() * (pizzaRadius - toppingRadius)
+            newX = Math.cos(angle) * distance + pizzaRadius
+            newY = Math.sin(angle) * distance + pizzaRadius
+            
+            // Check if position overlaps with existing toppings
+            validPosition = !prev.toppings.some(existingTopping => {
+              const dx = newX - existingTopping.x
+              const dy = newY - existingTopping.y
+              const distance = Math.sqrt(dx * dx + dy * dy)
+              return distance < toppingRadius * 2
+            })
+            
+            attempts++
+          }
+          
+          // Fallback to random position if no valid position found
+          if (!validPosition) {
+            newX = Math.random() * 200 + 50
+            newY = Math.random() * 200 + 50
+          }
+        }
+        
         const newTopping: PizzaTopping = {
           ...topping,
-          x: x || Math.random() * 200 + 50,
-          y: y || Math.random() * 200 + 50
+          x: newX,
+          y: newY
         }
         return { ...prev, toppings: [...prev.toppings, newTopping] }
       }

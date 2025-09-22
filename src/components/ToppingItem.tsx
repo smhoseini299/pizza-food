@@ -44,13 +44,11 @@ const ToppingItem: React.FC<ToppingItemProps> = ({ topping, isSelected, onToggle
       }}
     >
       {/* Topping Preview */}
-      <div
-        className="w-10 h-10 rounded-full mx-auto mb-3 transition-all duration-300 group-hover:scale-110"
-        style={{
-          background: `radial-gradient(circle, ${topping.color} 0%, ${adjustColor(topping.color || '#8B0000', -30)} 100%)`,
-          border: `2px solid ${adjustColor(topping.color || '#8B0000', -50)}`
-        }}
-      />
+      <div className="w-12 h-12 mx-auto mb-3 transition-all duration-300 group-hover:scale-110 flex items-center justify-center bg-white/80 rounded-full border-2 border-gray-200">
+        <div className="text-2xl filter drop-shadow-sm">
+          {topping.icon}
+        </div>
+      </div>
 
       {/* Topping Name */}
       <div className="font-semibold text-text-primary mb-1 text-sm group-hover:text-primary transition-colors duration-300">
